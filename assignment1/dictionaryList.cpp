@@ -1,16 +1,24 @@
+/*
+*
+*
+File Name: dictionaryList.cpp
+Assignment: Lab 1 Exercise B
+*  Completed by: John Zhou
+*  Submission Date: Sept 17, 2025
+*/
 #include <assert.h>
 #include <iostream>
 #include <stdlib.h>
 #include "dictionaryList.h"
 using namespace std;
 
-Node::Node(const int& keyA, const Datum& datumA, Node *nextA)
-: keyM(keyA), datumM(datumA), nextM(nextA)
+Node::Node(const int &keyA, const Datum &datumA, Node *nextA)
+    : keyM(keyA), datumM(datumA), nextM(nextA)
 {
 }
 
 DictionaryList::DictionaryList()
-: sizeM(0), headM(0), cursorM(0)
+    : sizeM(0), headM(0), cursorM(0)
 {
 }
 
@@ -24,94 +32,97 @@ int DictionaryList::cursor_ok() const
     return cursorM != 0;
 }
 
-const int& DictionaryList::cursor_key() const
+const int &DictionaryList::cursor_key() const
 {
     assert(cursor_ok());
     return cursorM->keyM;
 }
 
-const Datum& DictionaryList::cursor_datum() const
+const Datum &DictionaryList::cursor_datum() const
 {
     assert(cursor_ok());
     return cursorM->datumM;
 }
 
-void DictionaryList::insert(const int& keyA, const string& datumA)
+void DictionaryList::insert(const int &keyA, const string &datumA)
 {
     // Add new node at head?
-    if (headM == 0 || keyA < headM->keyM) {
+    if (headM == 0 || keyA < headM->keyM)
+    {
         headM = new Node(keyA, datumA, headM);
         sizeM++;
     }
-    
+
     // Overwrite datum at head?
     else if (keyA == headM->keyM)
         headM->datumM = datumA;
-    
+
     // Have to search ...
-    else {
-        
-        //POINT ONE
-        
+    else
+    {
+
+        // POINT ONE
+
         // if key is found in list, just overwrite data;
-        for (Node *p = headM; p !=0; p = p->nextM)
+        for (Node *p = headM; p != 0; p = p->nextM)
         {
-            if(keyA == p->keyM)
+            if (keyA == p->keyM)
             {
                 p->datumM = datumA;
                 return;
             }
         }
-        
-        //OK, find place to insert new node ...
-        Node *p = headM ->nextM;
+
+        // OK, find place to insert new node ...
+        Node *p = headM->nextM;
         Node *prev = headM;
-        
-        while(p !=0 && keyA >p->keyM)
+
+        while (p != 0 && keyA > p->keyM)
         {
             prev = p;
             p = p->nextM;
         }
-        
+
         prev->nextM = new Node(keyA, datumA, p);
         sizeM++;
     }
     cursorM = NULL;
-    
 }
 
-void DictionaryList::remove(const int& keyA)
+void DictionaryList::remove(const int &keyA)
 {
-    if (headM == 0 || keyA < headM -> keyM)
+    if (headM == 0 || keyA < headM->keyM)
         return;
-    
+
     Node *doomed_node = 0;
-    
-    if (keyA == headM-> keyM) {
+
+    if (keyA == headM->keyM)
+    {
         doomed_node = headM;
         headM = headM->nextM;
-        
+
         // POINT TWO
     }
-    else {
+    else
+    {
         Node *before = headM;
         Node *maybe_doomed = headM->nextM;
-        while(maybe_doomed != 0 && keyA > maybe_doomed-> keyM) {
+        while (maybe_doomed != 0 && keyA > maybe_doomed->keyM)
+        {
             before = maybe_doomed;
             maybe_doomed = maybe_doomed->nextM;
         }
-        
-        if (maybe_doomed != 0 && maybe_doomed->keyM == keyA) {
+
+        if (maybe_doomed != 0 && maybe_doomed->keyM == keyA)
+        {
             doomed_node = maybe_doomed;
             before->nextM = maybe_doomed->nextM;
         }
-        
-        
     }
-    if(doomed_node == cursorM)
+    if (doomed_node == cursorM)
         cursorM = 0;
-    
-    delete doomed_node;           // Does nothing if doomed_node == 0.
+
+    delete doomed_node; // Does nothing if doomed_node == 0.
     sizeM--;
 }
 
@@ -126,47 +137,108 @@ void DictionaryList::step_fwd()
     cursorM = cursorM->nextM;
 }
 
-
-
 // The following functions are supposed to be completed by the stuents, as part
 // of the exercise B. the given code for this fucntion are just place-holders
 // in order to allow successful linking when you're esting insert and remove.
 // Replace them with the definitions that work.
 
-DictionaryList::DictionaryList(const DictionaryList& source)
+DictionaryList::DictionaryList(const DictionaryList &source) : sizeM(0), headM(0), cursorM(0)
 {
-    // Students should replace these messages with proper code.
-    cout << "\nWARNING: Copy constructor fails, because it is not properly implemented.";
-    cout << " Students should fix it nd remove this warning." << endl;
+
+    if (source.headM == 0)
+    {
+
+        return;
+    }
+    headM = new Node(source.headM->keyM, source.headM->datumM, nullptr);
+    sizeM = 1;
+    if (source.cursorM == source.headM)
+        cursorM = headM;
+    Node *currentNode = headM;
+    Node *sourceNextNode = source.headM->nextM;
+    while (sourceNextNode)
+    {
+        currentNode->nextM = new Node(sourceNextNode->keyM, sourceNextNode->datumM, nullptr);
+        currentNode = currentNode->nextM;
+        sizeM++;
+        if (source.cursorM != nullptr && source.cursorM == sourceNextNode)
+        {
+            cursorM = currentNode;
+        }
+        sourceNextNode = sourceNextNode->nextM;
+    }
 }
 
-DictionaryList& DictionaryList::operator =(const DictionaryList& rhs)
+DictionaryList &DictionaryList::operator=(const DictionaryList &rhs)
 {
-    // Students should replace these messages with proper code.
-    cout << "\nWARNING: DictionaryList::operator= failed, because it is not properly implemented.";
-    cout << " Students should fix it nd remove this warning." << endl;
+    if (this == &rhs)
+    {
+        return *this;
+    }
+    make_empty();
+    if (rhs.headM == 0)
+    {
+        headM = 0;
+        cursorM = 0;
+        sizeM = 0;
+        return *this;
+    }
+    headM = new Node(rhs.headM->keyM, rhs.headM->datumM, nullptr);
+    sizeM = 1;
+    if (rhs.cursorM == rhs.headM)
+        cursorM = headM;
+    Node *currentNode = headM;
+    Node *rhsNextNode = rhs.headM->nextM;
+    while (rhsNextNode)
+    {
+        currentNode->nextM = new Node(rhsNextNode->keyM, rhsNextNode->datumM, nullptr);
+        currentNode = currentNode->nextM;
+        sizeM++;
+        if (rhs.cursorM != nullptr && rhs.cursorM == rhsNextNode)
+        {
+            cursorM = currentNode;
+        }
+        rhsNextNode = rhsNextNode->nextM;
+    }
     return *this;
 }
 
 DictionaryList::~DictionaryList()
 {
-    // Students should replace these messages with proper code.
-    exit(1);
-    cout << "\nWARNING: the destructor of class DictionaryList fails, because it is not properly implemented.";
-    cout << " Students should fix it nd remove this warning." << endl;
+
+    make_empty();
 }
 
-void DictionaryList::find(const int& keyA)
+void DictionaryList::find(const int &keyA)
 {
-    // Students should replace these messages with proper code.
-    cout << "\nDon't know how to find " << keyA << " (or any other key).\n";
-    cout << "... so exit is being called.\n";
-    exit(1);
+    Node *current = headM;
+
+    while (current)
+    {
+        if (current->keyM == keyA)
+        {
+            cursorM = current;
+            return;
+        }
+        if (current->keyM > keyA)
+        {
+            break;
+        }
+        current = current->nextM;
+    }
+    cursorM = nullptr;
 }
 
 void DictionaryList::make_empty()
 {
-    // Students should replace these messages with proper code.
-    cout << "\nWARNING: call to the function make_empty failed, because it is not properly implemented.";
-    cout << " Students should fix it and remove this warning." << endl;
+    Node *current = headM;
+    while (current)
+    {
+        Node *next = current->nextM;
+        delete current;
+        current = next;
+    }
+    headM = 0;
+    cursorM = 0;
+    sizeM = 0;
 }
