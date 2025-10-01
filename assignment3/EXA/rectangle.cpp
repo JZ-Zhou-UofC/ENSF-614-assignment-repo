@@ -12,20 +12,8 @@ Assignment: Lab 2 Exercise B
 using namespace std;
 
 Rectangle::Rectangle(double x, double y, double side_a, double side_b, const char *name)
-    : Square(x, y, side_a, name), side_b(side_b) {}
+    : Shape(Point(x, y), name),Square(x, y, side_a, name), side_b(side_b) {}
 
-Rectangle::Rectangle(const Rectangle &other)
-    : Square(other), side_b(other.side_b) {}
-
-Rectangle &Rectangle::operator=(const Rectangle &other)
-{
-    if (this != &other)
-    {
-        Square::operator=(other);
-        side_b = other.side_b;
-    }
-    return *this;
-}
 
 double Rectangle::get_side_b() const
 {

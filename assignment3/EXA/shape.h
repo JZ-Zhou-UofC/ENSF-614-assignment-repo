@@ -12,33 +12,33 @@ Assignment: Lab 2 Exercise B
 #include "point.h"
 
 class Shape {
-protected:
-    Point origin;     
-    char* shapeName;     
+ protected:
+  Point origin;
+  char* shapeName;
 
-public:
-    // shapeName is on heap
-    // Constructor
-    Shape(const Point& pt, const char* name);
-    // Copy constructor
-    Shape(const Shape& other);
-    // Assignment operator
-    Shape& operator=(const Shape& other);
-    
-    virtual ~Shape();
+ public:
+  // shapeName is on heap
+  // Constructor
+  Shape(const Point& pt, const char* name);
+  // Copy constructor
+  Shape(const Shape& other);
+  // Assignment operator
+  Shape& operator=(const Shape& other);
 
-    // Getters
-    const Point& getOrigin() const;
-    const char* getName() const;
+  virtual ~Shape();
 
-    void move(double dx, double dy);
+  // Getters
+  const Point& getOrigin() const;
+  const char* getName() const;
 
-    virtual void display() const;
+  void move(double dx, double dy);
 
-  
-    double distance(Shape& other);
-    // Static function, does not require shape object
-    static double distance(Shape& s1, Shape& s2);
+  virtual void display() const;
+  virtual double area() const = 0;
+  virtual double perimeter() const = 0;
+  double distance(Shape& other);
+  // Static function, does not require shape object
+  static double distance(Shape& s1, Shape& s2);
 };
 
 #endif
