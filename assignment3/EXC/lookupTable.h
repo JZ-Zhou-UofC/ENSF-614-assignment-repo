@@ -28,8 +28,8 @@ class LT_Node {
   Pair<Key, Datum> pairM;
   LT_Node* nextM;
 
-LT_Node(const Pair<Key, Datum>& pairA, LT_Node* nextA)
-    : pairM(pairA), nextM(nextA) {}
+LT_Node(const Pair<Key, Datum>& pairA, LT_Node* nextA);
+
 };
 
 // LookupTable template
@@ -92,6 +92,11 @@ class LookupTable {
 };
 
 //  implementation
+template <typename Key, typename Datum>
+
+LT_Node<Key, Datum>::LT_Node(const Pair<Key, Datum>& pairA, LT_Node* nextA)
+    : pairM(pairA), nextM(nextA) {}
+
 template <typename Key, typename Datum>
 LookupTable<Key, Datum>& LookupTable<Key, Datum>::begin() {
   cursorM = headM;
