@@ -5,11 +5,11 @@
 #include <iostream>
 #include "lookupTable.h"
 #include "customer.h"
-#include "mystring2.h"   // assuming you have Mystring class
+#include "mystring2.h" 
 #include <cstring>
 using namespace std;
 
-// ===================== Generic Helpers =====================
+
 template <typename K, typename V>
 void print(LookupTable<K, V>& lt)
 {
@@ -30,7 +30,7 @@ void try_to_find(LookupTable<K, V>& lt, K key)
         cout << "\nSorry, I couldn't find key: " << key << " in the table.\n";
 }
 
-// ===================== Tests =====================
+// TEST
 void test_Customer()
 {
     cout<<"\nCreating and testing Customers Lookup Table <int, Customer>...\n";

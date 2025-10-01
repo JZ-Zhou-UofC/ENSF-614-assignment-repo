@@ -3,15 +3,14 @@
 
 #ifndef LOOKUPTABLE_H
 #define LOOKUPTABLE_H
-#include <iostream>
 #include <cassert>
+#include <iostream>
 using namespace std;
 
-// Generic Pair template
+
 template <typename Key, typename Datum>
-struct Pair 
-{
-  Pair(Key keyA, Datum datumA):key(keyA), datum(datumA) {}
+struct Pair {
+  Pair(Key keyA, Datum datumA) : key(keyA), datum(datumA) {}
   Key key;
   Datum datum;
 };
@@ -24,11 +23,12 @@ class LookupTable;
 template <typename Key, typename Datum>
 class LT_Node {
   friend class LookupTable<Key, Datum>;
-private:
-  Pair<Key, Datum> pairM;
-  LT_Node *nextM;
 
-  LT_Node(const Pair<Key, Datum>& pairA, LT_Node *nextA)
+ private:
+  Pair<Key, Datum> pairM;
+  LT_Node* nextM;
+
+LT_Node(const Pair<Key, Datum>& pairA, LT_Node* nextA)
     : pairM(pairA), nextM(nextA) {}
 };
 
@@ -36,24 +36,27 @@ private:
 template <typename Key, typename Datum>
 class LookupTable {
  public:
-
   // Nested Iterator
   class Iterator {
     friend class LookupTable<Key, Datum>;
-    LookupTable<Key, Datum> *LT;
-  public:
-    Iterator():LT(0){}
-    Iterator(LookupTable<Key, Datum> & x): LT(&x){}
-    const Datum&  operator *();
-    const Datum& operator ++();
-    const Datum& operator ++(int);
-    int operator !();
-    void step_fwd(){  assert(LT->cursor_ok()); LT->step_fwd();}
+    LookupTable<Key, Datum>* LT;
+
+   public:
+    Iterator() : LT(0) {}
+    Iterator(LookupTable<Key, Datum>& x) : LT(&x) {}
+    const Datum& operator*();
+    const Datum& operator++();
+    const Datum& operator++(int);
+    int operator!();
+    void step_fwd() {
+      assert(LT->cursor_ok());
+      LT->step_fwd();
+    }
   };
 
   LookupTable();
-  LookupTable(const LookupTable  & source);
-  LookupTable& operator =(const LookupTable& rhs);
+  LookupTable(const LookupTable& source);
+  LookupTable& operator=(const LookupTable& rhs);
   ~LookupTable();
 
   LookupTable& begin();
@@ -71,7 +74,7 @@ class LookupTable {
   void step_fwd();
   void make_empty();
 
-  friend ostream& operator << (ostream& os, const LookupTable<Key, Datum>& lt) {
+  friend ostream& operator<<(ostream& os, const LookupTable<Key, Datum>& lt) {
     if (lt.cursor_ok())
       os << lt.cursor_key() << "  " << lt.cursor_datum();
     else
@@ -81,24 +84,22 @@ class LookupTable {
 
  private:
   int sizeM;
-  LT_Node<Key, Datum> *headM;
-  LT_Node<Key, Datum> *cursorM;
+  LT_Node<Key, Datum>* headM;
+  LT_Node<Key, Datum>* cursorM;
 
   void destroy();
   void copy(const LookupTable& source);
 };
 
-// ---------------- IMPLEMENTATION ------------------
-
+//  implementation
 template <typename Key, typename Datum>
-LookupTable<Key, Datum>& LookupTable<Key, Datum>::begin(){
+LookupTable<Key, Datum>& LookupTable<Key, Datum>::begin() {
   cursorM = headM;
   return *this;
 }
 
 template <typename Key, typename Datum>
-LookupTable<Key, Datum>::LookupTable()
-  : sizeM(0), headM(0), cursorM(0) {}
+LookupTable<Key, Datum>::LookupTable() : sizeM(0), headM(0), cursorM(0) {}
 
 template <typename Key, typename Datum>
 LookupTable<Key, Datum>::LookupTable(const LookupTable& source) {
@@ -106,7 +107,8 @@ LookupTable<Key, Datum>::LookupTable(const LookupTable& source) {
 }
 
 template <typename Key, typename Datum>
-LookupTable<Key, Datum>& LookupTable<Key, Datum>::operator =(const LookupTable& rhs) {
+LookupTable<Key, Datum>& LookupTable<Key, Datum>::operator=(
+    const LookupTable& rhs) {
   if (this != &rhs) {
     destroy();
     copy(rhs);
@@ -120,10 +122,14 @@ LookupTable<Key, Datum>::~LookupTable() {
 }
 
 template <typename Key, typename Datum>
-int LookupTable<Key, Datum>::size() const { return sizeM; }
+int LookupTable<Key, Datum>::size() const {
+  return sizeM;
+}
 
 template <typename Key, typename Datum>
-int LookupTable<Key, Datum>::cursor_ok() const { return cursorM != 0; }
+int LookupTable<Key, Datum>::cursor_ok() const {
+  return cursorM != 0;
+}
 
 template <typename Key, typename Datum>
 const Key& LookupTable<Key, Datum>::cursor_key() const {
@@ -142,21 +148,19 @@ void LookupTable<Key, Datum>::insert(const Pair<Key, Datum>& pairA) {
   if (headM == 0 || pairA.key < headM->pairM.key) {
     headM = new LT_Node<Key, Datum>(pairA, headM);
     sizeM++;
-  }
-  else if (pairA.key == headM->pairM.key)
+  } else if (pairA.key == headM->pairM.key)
     headM->pairM.datum = pairA.datum;
   else {
-    LT_Node<Key, Datum>* before= headM;
-    LT_Node<Key, Datum>* after=headM->nextM;
+    LT_Node<Key, Datum>* before = headM;
+    LT_Node<Key, Datum>* after = headM->nextM;
 
-    while(after!=NULL && (pairA.key > after->pairM.key)) {
-      before=after;
-      after=after->nextM;
+    while (after != NULL && (pairA.key > after->pairM.key)) {
+      before = after;
+      after = after->nextM;
     }
-    if(after!=NULL && pairA.key == after->pairM.key) {
+    if (after != NULL && pairA.key == after->pairM.key) {
       after->pairM.datum = pairA.datum;
-    }
-    else {
+    } else {
       before->nextM = new LT_Node<Key, Datum>(pairA, before->nextM);
       sizeM++;
     }
@@ -165,19 +169,17 @@ void LookupTable<Key, Datum>::insert(const Pair<Key, Datum>& pairA) {
 
 template <typename Key, typename Datum>
 void LookupTable<Key, Datum>::remove(const Key& keyA) {
-  if (headM == 0 || keyA < headM->pairM.key)
-    return;
+  if (headM == 0 || keyA < headM->pairM.key) return;
 
   LT_Node<Key, Datum>* doomed_node = 0;
   if (keyA == headM->pairM.key) {
     doomed_node = headM;
     headM = headM->nextM;
     sizeM--;
-  }
-  else {
+  } else {
     LT_Node<Key, Datum>* before = headM;
     LT_Node<Key, Datum>* maybe_doomed = headM->nextM;
-    while(maybe_doomed != 0 && keyA > maybe_doomed->pairM.key) {
+    while (maybe_doomed != 0 && keyA > maybe_doomed->pairM.key) {
       before = maybe_doomed;
       maybe_doomed = maybe_doomed->nextM;
     }
@@ -186,15 +188,15 @@ void LookupTable<Key, Datum>::remove(const Key& keyA) {
       before->nextM = maybe_doomed->nextM;
       sizeM--;
     }
-  } 
+  }
   delete doomed_node;
 }
 
 template <typename Key, typename Datum>
 void LookupTable<Key, Datum>::find(const Key& keyA) {
-  LT_Node<Key, Datum> *ptr=headM;
+  LT_Node<Key, Datum>* ptr = headM;
   while (ptr != NULL && ptr->pairM.key != keyA) {
-    ptr=ptr->nextM;
+    ptr = ptr->nextM;
   }
   cursorM = ptr;
 }
@@ -219,47 +221,46 @@ void LookupTable<Key, Datum>::make_empty() {
 
 template <typename Key, typename Datum>
 void LookupTable<Key, Datum>::destroy() {
-  LT_Node<Key, Datum> *ptr = headM;
-  while (ptr!=NULL) {
-    headM=headM->nextM;
+  LT_Node<Key, Datum>* ptr = headM;
+  while (ptr != NULL) {
+    headM = headM->nextM;
     delete ptr;
-    ptr=headM;
+    ptr = headM;
   }
   cursorM = NULL;
-  sizeM=0;
+  sizeM = 0;
 }
 
 template <typename Key, typename Datum>
 void LookupTable<Key, Datum>::copy(const LookupTable& source) {
-  headM=0;
-  cursorM =0;
-  if(source.headM ==0) return;
- 
-  for(LT_Node<Key, Datum> *p = source.headM; p != 0; p=p->nextM) {
+  headM = 0;
+  cursorM = 0;
+  if (source.headM == 0) return;
+
+  for (LT_Node<Key, Datum>* p = source.headM; p != 0; p = p->nextM) {
     insert(Pair<Key, Datum>(p->pairM.key, p->pairM.datum));
-    if(source.cursorM == p)
-      find(p->pairM.key);
+    if (source.cursorM == p) find(p->pairM.key);
   }
 }
 
 // ------------ Iterator Implementation ---------------
 
 template <typename Key, typename Datum>
-const Datum& LookupTable<Key, Datum>::Iterator::operator *() {
+const Datum& LookupTable<Key, Datum>::Iterator::operator*() {
   assert(LT->cursor_ok());
   return LT->cursor_datum();
 }
 
 template <typename Key, typename Datum>
-const Datum& LookupTable<Key, Datum>::Iterator::operator ++() {
+const Datum& LookupTable<Key, Datum>::Iterator::operator++() {
   assert(LT->cursor_ok());
-  const Datum & x = LT->cursor_datum();
+  const Datum& x = LT->cursor_datum();
   LT->step_fwd();
   return x;
 }
 
 template <typename Key, typename Datum>
-const Datum& LookupTable<Key, Datum>::Iterator::operator ++(int) {
+const Datum& LookupTable<Key, Datum>::Iterator::operator++(int) {
   assert(LT->cursor_ok());
   LT->step_fwd();
   return LT->cursor_datum();
