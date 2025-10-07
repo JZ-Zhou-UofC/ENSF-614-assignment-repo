@@ -7,6 +7,9 @@
 #include <iostream>
 using namespace std;
 
+// Forward declaration
+template <typename Key, typename Datum>
+class LookupTable;
 
 template <typename Key, typename Datum>
 struct Pair {
@@ -14,10 +17,6 @@ struct Pair {
   Key key;
   Datum datum;
 };
-
-// Forward declaration
-template <typename Key, typename Datum>
-class LookupTable;
 
 // Node template
 template <typename Key, typename Datum>
@@ -28,9 +27,12 @@ class LT_Node {
   Pair<Key, Datum> pairM;
   LT_Node* nextM;
 
-LT_Node(const Pair<Key, Datum>& pairA, LT_Node* nextA);
+  LT_Node(const Pair<Key, Datum>& pairA, LT_Node* nextA);
 
+  // LT_Node(const Pair<Key, Datum>& pairA, LT_Node* nextA): pairM(pairA), nextM(nextA) {};
 };
+
+
 
 // LookupTable template
 template <typename Key, typename Datum>
@@ -93,10 +95,8 @@ class LookupTable {
 
 //  implementation
 template <typename Key, typename Datum>
-
 LT_Node<Key, Datum>::LT_Node(const Pair<Key, Datum>& pairA, LT_Node* nextA)
     : pairM(pairA), nextM(nextA) {}
-
 template <typename Key, typename Datum>
 LookupTable<Key, Datum>& LookupTable<Key, Datum>::begin() {
   cursorM = headM;
