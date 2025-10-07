@@ -46,7 +46,6 @@ private:
 public:
     Car(const string& name, int seats);
     void turn();
-    // Implement abstract functions
     void forward() override;
     void backward() override;
     void enlarge(int n) override;
