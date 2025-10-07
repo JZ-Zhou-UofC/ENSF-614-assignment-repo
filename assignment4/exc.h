@@ -1,5 +1,13 @@
-#ifndef VEHICLE_HIERARCHY_H
-#define VEHICLE_HIERARCHY_H
+/*
+*
+*
+File Name: exc.h
+Assignment: Lab 4 Exercise c
+*  Completed by: John Zhou
+*  Submission Date: Oct 7th, 2025
+*/
+#ifndef EXC_H
+#define EXC_H
 
 #include <string>
 using namespace std;
