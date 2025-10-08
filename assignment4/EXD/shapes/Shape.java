@@ -8,7 +8,7 @@ public abstract class Shape {
 	Point origin;
 	public abstract double area();
 	public abstract double perimeter();
-  public abstract double volume();
+  	public abstract double volume();
 	
 	
 	public Shape(double x_origin, double y_origin, String name){
