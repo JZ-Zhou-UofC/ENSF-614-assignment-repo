@@ -1,3 +1,11 @@
+/*
+*
+*
+File Name: InsertionSorter.java
+Assignment: Lab 5  B
+*  Completed by: John Zhou
+*  Submission Date: Oct 29th, 2025
+*/
 import java.util.ArrayList;
 
 public class InsertionSorter<E extends Number & Comparable<E>> implements Sorter<E> {

@@ -1,3 +1,11 @@
+/*
+*
+*
+File Name: BubbleSorter.java
+Assignment: Lab 5 Exercise A
+*  Completed by: John Zhou
+*  Submission Date: Oct 29th, 2025
+*/
 import java.util.ArrayList;
 
 public class BubbleSorter<E extends Number & Comparable<E>> implements Sorter<E> {

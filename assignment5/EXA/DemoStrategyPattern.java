@@ -1,6 +1,11 @@
-/* ENSF 614 - Lab 5 - Exercise A and B
- */
-
+/*
+*
+*
+File Name: DemoStrategyPattern.java
+Assignment: Lab 5 Exercise A and B
+*  Completed by: John Zhou
+*  Submission Date: Oct 29th, 2025
+*/
 import java.util.Random;
 public class DemoStrategyPattern {
 	public static void main(String[] args) {
@@ -46,5 +51,24 @@ public class DemoStrategyPattern {
 			v2.performSort();
 	        System.out.println("\nThe values in MyVector object v2 after performing InsertionSorter is:");
 			v2.display();	
+
+
+		MyVector<Float> v3 = new MyVector<Float> (50);
+		
+		// populate v2 with 5 randomly generated numbers
+		for(int i = 4; i >=0; i--) {
+			Item<Float> item;
+			item = new Item<Float> (Float.valueOf(rand.nextInt(50)));
+			v3.add(item);
+			}
+		   
+	        System.out.println("\nThe original values in v3 object are:");
+			v3.display();
+			v3.setSortStrategy(new SelectionSorter<Float>());;
+			v3.performSort();
+	        System.out.println("\nThe values in MyVector object v3 after performing SelectionSorter is:");
+			v3.display();	
 	}
+
+	
 }
