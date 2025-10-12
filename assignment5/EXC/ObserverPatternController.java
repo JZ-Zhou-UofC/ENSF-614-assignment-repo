@@ -1,4 +1,4 @@
-
+package EXC;
 public class ObserverPatternController {
  	public static void main(String []s) {
 		double [] arr = {10, 20, 33, 44, 50, 30, 60, 70, 80, 10, 11, 23, 34, 55};
