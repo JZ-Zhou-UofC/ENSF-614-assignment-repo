@@ -1,37 +1,34 @@
+import java.util.ArrayList;
 
 public class MyVector<E extends Number & Comparable<E>> {
-    private Item<E>[] items;
-    private int count = 0;
-    private int capacity =0;
-    private SortStrategy<E> sortStrategy;
+    private ArrayList<Item<E>> storageM;
+    private Sorter<E> sorter;
 
-    public MyVector(int cap) {
-
-        items = (Item<E>[]) new Item[cap] ;
-        this.capacity=cap;
+    public MyVector(int n) {
+        storageM = new ArrayList<>(n);
     }
 
-    public void add(Item<E> item) {
-          if (count < capacity) {
-            items[count] = item;
-            count++;
-        } else {
-            System.out.println("Vector is full!");
-        }}
-
-    public void display() {
-        for (int i = 0; i < count; i++) {
-            System.out.print(items[i].getItem() + "  ");
-        }
-        System.out.println();
+    public MyVector(ArrayList<Item<E>> arr) {
+        storageM = new ArrayList<>(arr);
     }
 
-    public void setSortStrategy(SortStrategy<E> strategy) {
-        this.sortStrategy = strategy;
+    public void add(Item<E> value) {
+        storageM.add(value);
+    }
+
+    public void setSortStrategy(Sorter<E> s) {
+        this.sorter = s;
     }
 
     public void performSort() {
-        if (sortStrategy != null)
-            sortStrategy.sort(items, count);
+
+       sorter.sort(storageM);
+    }
+
+    public void display() {
+        for (Item<E> item : storageM) {
+            System.out.print(item.getItem() + "  ");
+        }
+        System.out.println();
     }
 }

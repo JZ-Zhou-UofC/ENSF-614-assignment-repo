@@ -1,17 +1,19 @@
-public class InsertionSorter<E extends Number & Comparable<E>> implements SortStrategy<E> {
+import java.util.ArrayList;
+
+public class InsertionSorter<E extends Number & Comparable<E>> implements Sorter<E> {
 
     @Override
-    public void sort(Item<E>[] items, int size) {
-        for (int i = 1; i < size ; i++) {
-            Item<E> key = items[i];
+    public void sort(ArrayList<Item<E>> items) {
+        int size = items.size();
+        for (int i = 1; i < size; i++) {
+            Item<E> key = items.get(i);
             int j = i - 1;
 
-            while (j >= 0 && items[j].getItem().compareTo(key.getItem())>0) {
-                items[j + 1] = items[j];
+            while (j >= 0 && items.get(j).getItem().compareTo(key.getItem()) > 0) {
+                items.set(j + 1, items.get(j));
                 j--;
             }
-            items[j + 1] = key;
+            items.set(j + 1, key);
         }
-
     }
 }
