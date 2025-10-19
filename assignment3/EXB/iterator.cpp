@@ -8,17 +8,18 @@
 using namespace std;
 
 
+template<typename T>
 class Vector {
 public: 
 
   class VectIter{
-    friend class Vector;
+    friend class Vector<T>;
   private:
-    Vector *v; // points to a vector object of type T
+    Vector<T> *v; // points to a vector object of type T
     int index;    // represents the subscript number of the vector's
                   // array.
   public:
-    VectIter(Vector& x);
+    VectIter(Vector<T>& x);
  
     int operator++();
     //PROMISES: increments the iterator's indes and return the 
@@ -71,8 +72,8 @@ private:
 public:
 };
 
-
-void Vector::ascending_sort()
+template <typename T>
+void Vector<T>::ascending_sort()
 {
 	for(int i=0; i< size-1; i++)
 		for(int j=i+1; j < size; j++)
