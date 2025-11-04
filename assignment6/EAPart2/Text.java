@@ -1,4 +1,4 @@
-package EA;
+package EAPart2;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -17,10 +17,11 @@ public class Text implements Component {
 
 	@Override
 	public void draw(Graphics g) {
-		Color darkGreen = new Color(0, 128, 0); // Slightly Darker green
-		g.setColor(darkGreen);
+		// Color darkGreen = new Color(0, 128, 0); // Slightly Darker green
+		// g.setColor(darkGreen);
 
 		//Changing this back to black for part2
+		g.setColor(Color.BLACK);
 		g.drawString(text, x, y);
 
 	}

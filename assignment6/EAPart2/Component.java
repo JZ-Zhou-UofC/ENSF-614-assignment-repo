@@ -1,4 +1,4 @@
-package EA;
+package EAPart2;
 import java.awt.Graphics;
 
 

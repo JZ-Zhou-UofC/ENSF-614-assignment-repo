@@ -1,4 +1,4 @@
-package EA;
+package EAPart2;
 
 abstract class Decorator implements Component {
 
