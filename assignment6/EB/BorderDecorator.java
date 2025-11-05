@@ -1,4 +1,4 @@
-package EAPart2;
+package EB;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

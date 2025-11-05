@@ -1,4 +1,13 @@
-package EAPart2;
+
+/*
+*
+*
+File Name: DemoDecoratorPattern.java
+Assignment: Lab 6 Exercise A&B
+*  Completed by: John Zhou
+*  Submission Date: Nov 5th, 2025
+*/
+package EB;
 
 import java.awt.Font;
 import java.awt.Graphics;

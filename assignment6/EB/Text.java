@@ -1,4 +1,4 @@
-package EAPart2;
+package EB;
 
 import java.awt.Color;
 import java.awt.Graphics;
